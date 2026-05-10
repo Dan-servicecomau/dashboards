@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>April 2026 Scoreboard — Service.com.au</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E13;
+    --card: #12161D;
+    --card-border: #1E2530;
+    --accent: #3B82F6;
+    --accent-dim: rgba(59,130,246,0.12);
+    --green: #10B981;
+    --green-dim: rgba(16,185,129,0.12);
+    --red: #EF4444;
+    --red-dim: rgba(239,68,68,0.10);
+    --amber: #F59E0B;
+    --amber-dim: rgba(245,158,11,0.10);
+    --text: #E2E8F0;
+    --text-muted: #64748B;
+    --text-dim: #475569;
+    --gold: #FBBF24;
+    --font: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); padding: 40px 24px; min-height: 100vh; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  /* Header */
+  .header-dot { width: 10px; height: 10px; border-radius: 99px; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .header-tag { font-size: 13px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--mono); }
+  .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+  .subtitle { font-size: 15px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px 28px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .metric-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .metric-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .metric-value { font-size: 32px; font-weight: 700; font-family: var(--mono); letter-spacing: -0.02em; }
+  .metric-badges { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; font-family: var(--mono); letter-spacing: 0.02em; }
+  .badge-green { color: var(--green); background: var(--green-dim); }
+  .badge-red { color: var(--red); background: var(--red-dim); }
+  .badge-amber { color: var(--amber); background: var(--amber-dim); }
+  .badge-muted { color: var(--text-muted); background: var(--card-border); }
+  .target-label { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+
+  /* Ring */
+  .ring-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+  .ring-label { position: absolute; font-size: 13px; font-weight: 700; font-family: var(--mono); }
+
+  /* Secondary cards */
+  .sec-value { font-size: 28px; font-weight: 700; font-family: var(--mono); letter-spacing: -0.02em; }
+  .sec-sub { font-size: 12px; color: var(--text-dim); margin-top: 8px; font-family: var(--mono); }
+  .logo-row { display: flex; gap: 20px; margin-top: 4px; }
+  .logo-num { font-size: 22px; font-weight: 700; font-family: var(--mono); }
+  .logo-label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+  /* Waterfall */
+  .waterfall { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .wf-block { padding: 12px 20px; border-radius: 12px; text-align: center; }
+  .wf-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .wf-val { font-size: 18px; font-weight: 700; font-family: var(--mono); }
+  .wf-arrow { font-size: 20px; color: var(--text-dim); }
+
+  /* Story */
+  .story { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(16,185,129,0.05)); border: 1px solid var(--card-border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .story-title { font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 16px; }
+  .story-items { display: flex; flex-direction: column; gap: 14px; font-size: 14px; line-height: 1.7; }
+  .story-item { display: flex; gap: 12px; }
+  .story-icon { font-size: 18px; line-height: 24px; flex-shrink: 0; }
+
+  /* Reviews */
+  .review-nav { display: flex; gap: 6px; }
+  .review-btn { width: 28px; height: 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; font-family: var(--mono); transition: all 0.2s; }
+  .review-btn.active { background: var(--accent); color: #fff; }
+  .review-btn:not(.active) { background: var(--card-border); color: var(--text-dim); }
+  .review-quote-mark { font-size: 48px; color: var(--gold); opacity: 0.3; line-height: 1; margin-bottom: -8px; font-family: Georgia, serif; }
+  .review-text { font-size: 15px; line-height: 1.8; font-style: italic; padding-left: 4px; margin-bottom: 16px; }
+  .review-meta { display: flex; align-items: center; gap: 12px; padding-left: 4px; flex-wrap: wrap; }
+  .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; }
+  .review-attr { font-size: 13px; color: var(--text-muted); }
+  .review-attr strong { color: var(--text); }
+  .review-attr .biz { color: var(--accent); }
+
+  /* Footer */
+  .footer { text-align: center; padding: 20px 0; border-top: 1px solid var(--card-border); }
+  .footer-vision { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .footer-sub { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .waterfall { flex-direction: column; align-items: stretch; }
+    .wf-arrow { text-align: center; transform: rotate(90deg); }
+    h1 { font-size: 28px; }
+    .metric-value { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div style="margin-bottom:40px">
+    <div class="header-row">
+      <div class="header-dot"></div>
+      <span class="header-tag">All-Hands · May 2026</span>
+    </div>
+    <h1>April Performance</h1>
+    <p class="subtitle">Service.com.au — progress against FY2026 targets</p>
+  </div>
+
+  <!-- Primary metrics -->
+  <div class="grid-2" id="primary-metrics"></div>
+
+  <!-- Secondary metrics -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="metric-label">Net Dollar Retention</div>
+      <div class="sec-value" style="color:var(--red)">91.85%</div>
+      <div class="sec-sub">Target: 100%+ · Mar: 92.30%</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Quote Requests</div>
+      <div class="sec-value" style="color:var(--green)">3,204</div>
+      <div style="margin-top:8px"><span class="badge badge-green">+3.1% vs Mar</span></div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Logo Movement</div>
+      <div class="logo-row">
+        <div><div class="logo-num" style="color:var(--green)">+40</div><div class="logo-label">new</div></div>
+        <div><div class="logo-num" style="color:var(--red)">−66</div><div class="logo-label">churned</div></div>
+      </div>
+      <div class="sec-sub" style="margin-top:10px">Net: −26 logos</div>
+    </div>
+  </div>
+
+  <!-- MRR Waterfall -->
+  <div class="card" style="padding:28px 32px;margin-bottom:32px">
+    <div class="metric-label" style="margin-bottom:20px">MRR Waterfall · April</div>
+    <div class="waterfall">
+      <div class="wf-block" style="background:var(--accent-dim)">
+        <div class="wf-label">Starting</div>
+        <div class="wf-val" style="color:var(--accent)">$301,595</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-block" style="background:var(--green-dim)">
+        <div class="wf-label">New</div>
+        <div class="wf-val" style="color:var(--green)">+$15,224</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-block" style="background:var(--red-dim)">
+        <div class="wf-label">Churned</div>
+        <div class="wf-val" style="color:var(--red)">−$28,550</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-block" style="background:rgba(239,68,68,0.06);border:1px solid var(--card-border)">
+        <div class="wf-label">Ending</div>
+        <div class="wf-val">$293,519</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Story -->
+  <div class="story">
+    <div class="story-title">The Story</div>
+    <div class="story-items">
+      <div class="story-item">
+        <span class="story-icon" style="color:var(--green)">↑</span>
+        <span><strong style="color:var(--green)">Demand is growing.</strong> Quote requests up 3.1% month-on-month. The marketplace is delivering for homeowners.</span>
+      </div>
+      <div class="story-item">
+        <span class="story-icon" style="color:var(--amber)">◆</span>
+        <span><strong style="color:var(--amber)">Churn is improving.</strong> April lost 66 logos vs March's 119 — nearly halved. We proactively flagged 52 at-risk listings and every account owner has been notified.</span>
+      </div>
+      <div class="story-item">
+        <span class="story-icon" style="color:var(--red)">↓</span>
+        <span><strong style="color:var(--red)">Still net-negative.</strong> Until new logos consistently outpace churn, MRR won't grow. The gap is closing — 1.65:1 churn-to-new ratio. Acquisition and retention both need to move.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews -->
+  <div class="card" style="padding:28px 32px;margin-bottom:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="metric-label" style="margin:0">5-Star Reviews · April</div>
+      <div class="review-nav" id="review-nav"></div>
+    </div>
+    <div id="review-display"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-vision">Easiest way to hire a tradie.</div>
+    <div class="footer-sub">service.com.au · FY2026</div>
+  </div>
+
+</div>
+
+<script>
+// --- Data ---
+const metrics = [
+  { label: "Paying Subscribers", current: 1979, target: 3000, prev: 2005, format: "num" },
+  { label: "Implied ARR", current: 3522228, target: 5000000, prev: 3619134, format: "dollar" },
+  { label: "MRR", current: 293519, target: 416667, prev: 301595, format: "dollar" },
+  { label: "ARPU", current: 148.32, prev: 150.42, format: "dollar", target: null },
+];
+
+const reviews = [
+  { biz: "Flawless Gardens & Landscaping", cat: "Landscapers", state: "NSW", reviewer: "Pat", text: "Jacob and the team came to do our property in Balgowlah which was a range of retaining walls, paving and new lawn + garden beds. Not only great guys, but super reliable and did an awesome job. Jacob\u2019s expertise in horticulture was probably the best I have ever seen. We now use them for regular maintenance too." },
+  { biz: "BYS Electrical PTY LTD", cat: "Electricians", state: "VIC", reviewer: "Sam Van Der Hulst", text: "Joseph was fantastic to deal with. He was prompt, thorough, and clearly takes pride in his work. I felt confident and comfortable trusting his expertise throughout the job. Highly recommend." },
+  { biz: "Odd Job Otto", cat: "Handyman", state: "SA", reviewer: "Nas Andary", text: "I can\u2019t thank Shane enough for his brilliant work! I definitely recommend Odd Job Otto to anyone who is looking for a reliable, skilful, cleans up after himself and trustworthy worker." },
+  { biz: "Top Property Services Pty Ltd", cat: "Fencing", state: "QLD", reviewer: "Ian Frame", text: "Very happy with the work and service Doug and his team have provided. Friendly, professional, prompt and reasonable priced. I would certainly recommend Top Property Services to anyone." },
+  { biz: "WoodVance", cat: "Decking", state: "VIC", reviewer: "Sam Wetering", text: "I engaged Woodvance for my project \u2014 they exceeded all expectations. Their service was great and their quality was even better. Sean made the experience so much easier, would recommend." },
+];
+
+// --- Helpers ---
+function fmt(v, type) {
+  if (type === "dollar") return "$" + v.toLocaleString("en-AU", { minimumFractionDigits: v < 1000 ? 2 : 0, maximumFractionDigits: v < 1000 ? 2 : 0 });
+  if (type === "pct") return v.toFixed(1) + "%";
+  return v.toLocaleString("en-AU");
+}
+
+function makeSVGRing(pct, color, size, stroke) {
+  size = size || 72; stroke = stroke || 5;
+  const r = (size - stroke) / 2;
+  const circ = 2 * Math.PI * r;
+  const filled = Math.min(pct, 100);
+  const offset = circ - (circ * filled / 100);
+  return `<svg width="${size}" height="${size}" style="transform:rotate(-90deg)">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--card-border)" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+      stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
+      style="transition:stroke-dashoffset 1.2s ease"/>
+  </svg>`;
+}
+
+// --- Primary Metrics ---
+const primaryEl = document.getElementById("primary-metrics");
+metrics.forEach(m => {
+  const pct = m.target ? ((m.current / m.target) * 100) : null;
+  const d = m.current - m.prev;
+  const dpct = ((d / m.prev) * 100).toFixed(1);
+  const positive = d >= 0;
+  const ringColor = pct >= 100 ? "var(--green)" : pct > 75 ? "var(--amber)" : "var(--red)";
+  const badgeClass = positive ? "badge-green" : "badge-red";
+  const sign = positive ? "+" : "";
+
+  let ringHTML = "";
+  if (pct !== null) {
+    ringHTML = `<div class="ring-wrap">${makeSVGRing(pct, ringColor, 72, 5)}<div class="ring-label" style="color:${ringColor}">${Math.round(pct)}%</div></div>`;
+  }
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="metric-top">
+      <div>
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">${fmt(m.current, m.format)}</div>
+      </div>
+      ${ringHTML}
+    </div>
+    <div class="metric-badges">
+      <span class="badge ${badgeClass}">${sign}${dpct}% vs Mar</span>
+      ${m.target ? `<span class="target-label">Target: ${fmt(m.target, m.format)}</span>` : ""}
+    </div>`;
+  primaryEl.appendChild(card);
+});
+
+// --- Reviews ---
+let currentReview = 0;
+const navEl = document.getElementById("review-nav");
+const displayEl = document.getElementById("review-display");
+
+function renderReview(idx) {
+  currentReview = idx;
+  const r = reviews[idx];
+  displayEl.innerHTML = `
+    <div class="review-quote-mark">\u201C</div>
+    <p class="review-text">${r.text}</p>
+    <div class="review-meta">
+      <span class="stars">\u2605\u2605\u2605\u2605\u2605</span>
+      <span class="review-attr"><strong>${r.reviewer}</strong> on <strong class="biz">${r.biz}</strong></span>
+      <span class="badge badge-muted">${r.cat} \u00B7 ${r.state}</span>
+    </div>`;
+  document.querySelectorAll(".review-btn").forEach((btn, i) => {
+    btn.className = "review-btn" + (i === idx ? " active" : "");
+  });
+}
+
+reviews.forEach((_, i) => {
+  const btn = document.createElement("button");
+  btn.className = "review-btn" + (i === 0 ? " active" : "");
+  btn.textContent = i + 1;
+  btn.onclick = () => renderReview(i);
+  navEl.appendChild(btn);
+});
+renderReview(0);
+</script>
+</body>
+</html>
